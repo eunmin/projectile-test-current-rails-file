@@ -1,0 +1,7 @@
+(defun projectile-test-current-rails-file ()
+  (interactive)
+  (let* ((current-file-name (buffer-file-name (current-buffer)))
+         (test-file-name (if (projectile-test-file-p current-file-name)
+                             current-file-name (concat (projectile-project-root) (projectile-find-matching-test current-file-name)))))
+    (message (concat "Test:" test-file-name))
+    (compilation-start (concat projectile-ruby-test-cmd " TEST=" test-file-name))))
