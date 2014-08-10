@@ -4,12 +4,13 @@
   (interactive)
   (if test-file-name
       (progn (setq last-test-file-name test-file-name)
-       (message (concat "Test:" test-file-name))
-       (cond
-        ((member (projectile-project-type) '(rails-test ruby-test)) 
-         (compilation-start (concat projectile-ruby-test-cmd " TEST=" test-file-name)))
-        ((member (projectile-project-type) '(lein))
-         (compilation-start (concat projectile-lein-test-cmd " " test-file-name)))))
+             (message (concat "Test:" test-file-name))
+             (let ((default-directory (projectile-project-root)))
+               (cond
+                ((member (projectile-project-type) '(rails-test ruby-test)) 
+                 (compilation-start (concat projectile-ruby-test-cmd " TEST=" test-file-name)))
+                ((member (projectile-project-type) '(lein))
+                 (compilation-start (concat projectile-lein-test-cmd " " test-file-name))))))
     (message "No test file.")))
 
 (defun projectile-test-current-rails-file ()
